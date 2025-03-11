@@ -396,7 +396,9 @@ p_i = \dfrac{\lvert \{j = 1\ldots, n: V_j \geq V_i\} \rvert}{n}.
 \label{eq:cp:generalpval}
 \end{equation}\]</span></p>
 <p>For given <em>new</em> values of the covariates <span class="math inline">\(\textbf{x}_{n+1}\)</span>, the pair <span class="math inline">\(z_{y}:=(y,\textbf{x}_{n+1})\)</span>, for some <span class="math inline">\(y\in\textbf{Y}\)</span>, denotes a <em>possible</em> combination of values <span class="math inline">\(y\)</span> for the given covariates, where the word <em>possible</em> only means that <span class="math inline">\(y\in\textbf{Y}\)</span>.
-In this setting, the p-values for a possible combination can be defined in a similar fashion:</p>
+The nonconformity score for this possible combination will be denoted as <span class="math inline">\(V_{n+1}^y = S(\textbf{Z}^{(*)},y)\)</span>.
+In this setting, the p-value for a possible combination can be defined in a similar fashion:</p>
+
 <p><span class="math display">\[\begin{equation}
 p_{n+1}^{y} = \dfrac{\lvert \{j = 1\ldots, n: V_j \geq V_{n+1}^y\} \rvert}{n+1}.
 \label{eq:cp:pvalnewx}
