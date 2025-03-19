@@ -402,7 +402,7 @@ V_{t+1}^y := S(\{y_i\}_{i=1}^{t},y),\quad y\in\textbf{Y}.
 \Gamma_{t+1}^{\alpha}:=\{y\in\textbf{Y}: V_{t+1}^y\leq \hat{q}_{\alpha}\},
 \tag{1.3}
 \end{equation}\]</span></p>
-<p>where <span class="math inline">\(\hat q_{1-\alpha}\)</span> is the <span class="math inline">\(\lceil (1-\alpha)(t+1) \rceil\)</span>-quantile of the nonconformity scores computed from Equation <a href="#eq:ncs-obs-ostep">(1.1)</a>.
+<p>where <span class="math inline">\(\hat q_{\alpha}\)</span> is the <span class="math inline">\(\lceil (1-\alpha)(t+1) \rceil\)</span>-quantile of the nonconformity scores computed from Equation <a href="#eq:ncs-obs-ostep">(1.1)</a>.
 Since for time series the exchangeability assumption is in general no longer valid, the above prediction interval is not guaranteed to provide the desired coverage.</p>
 <p>To address the issue with exchangeability and others like the nonsymmetric algorithms, general and specially designed conformal prediction methods for time series forecasting have been recently developed.
 For example, the NexCP (Non Exchangeable CP) method of <span class="citation">Barber et al. (2023)</span> aims to extend full and split conformal prediction by introducing a weighted quantile construction of the prediction interval in Equation <a href="#eq:predint-pseudo-online">(1.3)</a> to allow for more “trusted” observations to play a bigger role in the prediction step while providing approximate coverage when exchangeability does not hold and exact coverage when it does.
@@ -426,7 +426,7 @@ Since at each time step new data is received and added to the existing time seri
 <li>Initialize the significance level at <span class="math inline">\(\hat\alpha_1 = \alpha\)</span>.</li>
 <li>For <span class="math inline">\(t=1,\ldots,T\)</span>:</li>
 <li>Construct prediction interval <span class="math inline">\(\Gamma_{t}(\hat\alpha_t)\)</span> using Equation <a href="#eq:predint-online-onestp">(1.4)</a>.</li>
-<li>Observe/receive the realization <span class="math inline">\(y_{t}\)</span> of <span class="math inline">\(Y_{t}\)</span>, compute the value <span class="math inline">\(\alpha_t^*:=\sup\{\alpha: \Gamma_t(\alpha)\}\)</span>, and add the value <span class="math inline">\(y_t\)</span> to the set of available data.</li>
+<li>Observe/receive the realization <span class="math inline">\(y_{t}\)</span> of <span class="math inline">\(Y_{t}\)</span>, compute the value <span class="math inline">\(\alpha_t^*:=\sup\{\alpha: y_t\in \Gamma_t(\alpha)\}\)</span>, and add the value <span class="math inline">\(y_t\)</span> to the set of available data.</li>
 <li>Pay a <em>loss</em> of <span class="math inline">\(\ell_{\alpha}(\hat{\alpha}_t,\alpha_t^*)\)</span>.</li>
 <li>Perform the update for <span class="math inline">\(\hat\alpha_{t+1}\)</span> based on the loss obtained.</li>
 <li>Go back to step 3.</li>
@@ -454,9 +454,9 @@ The update rule for ACI is the following</p>
 <p><span class="math display">\[\hat\alpha_{t+1}=\hat\alpha_t+\gamma\left(\alpha-\operatorname{err}_t\right), \quad \operatorname{err}_t:=\begin{cases} 1, \text{ if } Y_t \notin\Gamma_t({\hat{\alpha}_t}) \\ 0, \text{ if }Y_t\in\Gamma_t(\hat{\alpha}_t)\end{cases},\]</span></p>
 <p>which is derived as an Online Subgradient Descent (OSGD) algorithm applied to the loss</p>
 <p><span class="math display">\[
-\ell_{\alpha}(\hat\alpha_t,\beta_t):=\rho_{\alpha}(\beta_t-\hat\alpha_t),
+\ell_{\alpha}(\hat\alpha_t,\alpha_t^*):=\rho_{\alpha}(\alpha_t^*-\hat\alpha_t),
 \]</span></p>
-<p>where <span class="math inline">\(\beta_t:=\sup\{\beta:Y_t\in\Gamma_t(\beta)\}\)</span>. In this case, the subgradient of the loss function <span class="math inline">\(\ell_{\alpha}(\hat\alpha_t,\beta_t)\)</span> is <span class="math inline">\(\alpha-\operatorname{err}_t\)</span>.
+<p>w.r.t <span class="math inline">\(\hat\alpha_t\)</span>, where <span class="math inline">\(\alpha_t^*:=\sup\{\alpha:y_t\in\Gamma_t(\alpha)\}\)</span>. In this case, the subgradient of the loss function <span class="math inline">\(\ell_{\alpha}(\hat\alpha_t,\alpha_t^*)\)</span> is <span class="math inline">\(\alpha-\operatorname{err}_t\)</span>.
 This update depends on a <em>learning</em> rate parameter <span class="math inline">\(\gamma\)</span> that controls how fast this rule will adapt to the miscoverage events, which needs tuning to perform well as very low values will result in not being able to track the correct coverage or produce overly conservative prediction bands if the value of <span class="math inline">\(\gamma\)</span> is too large.
 However the attractive feature of this method is that it does not rely on any assumption of the temporal dependence of the data, which makes it suitable for wrapping it in any forecast model and the coverage guarantees are obtained asymptotically without any assumption on the model structure.</p>
 <p>Further extensions of the idea behind ACI have been developed.
